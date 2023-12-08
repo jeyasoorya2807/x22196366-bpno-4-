@@ -1,0 +1,98 @@
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(to bottom, #f8f8f8, #e0e0e0); /* Gradient background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #ffeb3b; /* Yellow header */
+    color: #333; /* Dark gray text */
+    text-align: center;
+    padding: 1em;
+  }
+
+  section {
+    text-align: center;
+    padding: 2em;
+    color: #333; /* Dark gray text */
+  }
+
+  section p {
+    font-size: 1.2em;
+    color: #00695c; /* Teal text */
+  }
+
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #00695c; /* Teal text for labels */
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #ff4081; /* Pink button */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #d81b60; /* Darker pink on hover */
+  }
+
+  div {
+    margin-top: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00695c; /* Teal text for links */
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<header>
+  <h1>Welcome to Baby Products</h1>
+</header>
+
+<section>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+      <button type="submit">Sign Up</button>
+    </div>
+    <p></p>
+    <div>
+      Already having an account <a href="{% url 'sign_in' %}">Sign In</a>
+    </div>
+  </form>
+</section>
+{% endblock content %}

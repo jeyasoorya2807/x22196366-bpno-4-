@@ -1,0 +1,109 @@
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Baby Products</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #f8f8f8, #e0e0e0); /* Gradient background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffeb3b; /* Yellow header */
+            color: #333; /* Dark gray text */
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            text-align: center;
+            padding: 2em;
+            color: #333; /* Dark gray text */
+        }
+
+        section p {
+            font-size: 1.2em;
+            color: #333; /* Dark gray text */
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333; /* Dark gray text for labels */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #ff4081; /* Pink button */
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #d81b60; /* Darker pink on hover */
+        }
+
+        footer {
+            background-color: #424242; /* Dark gray footer */
+            color: white;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Baby Products</h1>
+    </header>
+
+    <section>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}! Discover a world of joy with our amazing baby products!Thank you for visiting our Online Store.
+
+For the convenience of our customers, we are offering only a select few of our everyday baby necessity products online.
+
+</p>
+        {% else %}
+            <form method="post" action="{% url 'babyproducts:sign_in' %}">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <input type="submit" value="Sign In">
+            </form>
+            <a href="{% url 'users:sign_up' %}">Sign Up</a>
+        {% endif %}
+        <a href="{% url 'babyproducts:product_list' %}">Explore Products</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Baby Products</p>
+    </footer>
+</body>
+</html>
+{% endblock content %}

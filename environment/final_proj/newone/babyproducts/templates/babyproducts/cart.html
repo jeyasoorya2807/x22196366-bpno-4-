@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(to bottom, #f8f8f8, #e0e0e0); /* Gradient background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #ffeb3b; /* Yellow header */
+    color: #333; /* Dark gray text */
+    text-align: center;
+    padding: 1em;
+  }
+
+  section {
+    text-align: center;
+    padding: 2em;
+    color: #333; /* Dark gray text */
+  }
+
+  section p {
+    font-size: 1.2em;
+    color: #00695c; /* Teal text */
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  li img {
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 10px;
+  }
+
+  button {
+    background-color: #ff4081; /* Pink button */
+    color: white;
+    padding: 8px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #d81b60; /* Darker pink on hover */
+  }
+
+  div {
+    margin-top: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00695c; /* Teal text for links */
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .success-message {
+    color: #4CAF50; /* Green text for success message */
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
+<header>
+  <h1>Your Shopping Cart</h1>
+</header>
+
+<section>
+  {% if cart_items %}
+    <ul>
+      {% for cart_item in cart_items %}
+        <li>
+          <img src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product.name }}">
+          {{ cart_item.product.name }} - Quantity: {{ cart_item.quantity }}
+          <button onclick="removeFromCart('{{ cart_item.id }}')">Remove</button>
+        </li>
+      {% endfor %}
+    </ul>
+    <div>
+      <button onclick="openModal()">Place Order</button>
+      <a href="{% url 'babyproducts:product_list' %}"><button>Add More Products</button></a>
+    </div>
+  {% else %}
+    <p>Your cart is empty. <a href="{% url 'babyproducts:product_list' %}">Explore Products</a></p>
+  {% endif %}
+  
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p class="success-message">Order placed successfully. Kindly collect from the nearby store.</p>
+      <a href="{% url 'babyproducts:index' %}"><button>Return to Index</button></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function removeFromCart(cartItemId) {
+    // Implement AJAX to remove the item from the cart
+    // Display success message upon successful removal
+    fetch("{% url 'babyproducts:remove_from_cart' 0 %}".replace('0', cartItemId), {
+      method: 'GET',
+    })
+    .then(response => {
+      if (response.ok) {
+        document.getElementById("successModal").style.display = "block";
+        // Optionally, you can update the UI to reflect the removal (remove the item from the list, etc.)
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  function openModal() {
+    document.getElementById("successModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("successModal").style.display = "none";
+  }
+</script>
+
+{% endblock content %}

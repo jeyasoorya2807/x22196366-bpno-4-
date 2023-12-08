@@ -1,0 +1,93 @@
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cute Baby Products</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffeb3b; /* Light yellow background */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #673ab7; /* Deep purple heading */
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff; /* White background for each product */
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        li:hover {
+            transform: scale(1.05); /* Zoom in on hover */
+        }
+
+        h2 {
+            color: #e91e63; /* Pink product name */
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #333; /* Dark gray product details */
+            margin-bottom: 15px;
+        }
+
+        img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50; /* Green add to cart button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Cute Baby Products</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <p>Description: {{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Quantity: {{ product.quantity }}</p>
+                <form method="post" action="{% url 'babyproducts:add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Add to Cart">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock content %}
