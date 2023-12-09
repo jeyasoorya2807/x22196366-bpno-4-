@@ -25,7 +25,7 @@ SECRET_KEY = 'am*hi8s04-^-kiv7z@^p^@3^cjo9jr!=ho_4&@5xhepmh@v5xk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://x22196366-babyproducts-env.eba-5j9vcyrc.eu-west-3.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['d5c7162aa4a74859b82d4317f3b5c858.vfs.cloud9.eu-west-1.amazonaws.com']
 
 
 # Application definition
@@ -126,3 +126,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
