@@ -23,12 +23,6 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'babyproducts/add_product.html', {'form': form})
-    
-def add_to_cart(request id):
-    product = get_object_or_404(Product, pk=id)
-    # code to add the product to cart
-
-    return redirect('babyproducts:cart')
 
 @login_required
 def add_to_cart(request, product_id):
