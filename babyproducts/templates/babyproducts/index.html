@@ -86,7 +86,7 @@ For the convenience of our customers, we are offering only a select few of our e
 
 </p>
         {% else %}
-            <form method="post" action="{% url 'babyproducts:sign_in' %}">
+            <form method="post" action="{% url 'users:sign_in' %}">
                 {% csrf_token %}
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
