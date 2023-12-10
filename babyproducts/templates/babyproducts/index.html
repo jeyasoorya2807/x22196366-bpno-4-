@@ -86,7 +86,7 @@ For the convenience of our customers, we are offering only a select few of our e
 
 </p>
         {% else %}
-            <form method="post" action="{% url 'sign_up' %}">
+            <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
         {% endif %}
         <a href="{% url 'babyproducts:product_list' %}">Explore Products</a>
