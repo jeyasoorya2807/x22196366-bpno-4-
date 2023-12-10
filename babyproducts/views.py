@@ -26,6 +26,8 @@ def add_product(request):
     
 def add_to_cart(request id):
     product = get_object_or_404(Product, pk=id)
+    # code to add the product to cart
+
     return redirect('babyproducts:cart')
 
 @login_required
