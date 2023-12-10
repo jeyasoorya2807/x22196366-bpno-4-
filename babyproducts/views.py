@@ -56,6 +56,7 @@ def place_order(request):
 @login_required
 def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
+    print("cart items=",cart_items)
     return render(request, 'babyproducts/cart.html', {'cart_items': cart_items})
 
 @login_required
