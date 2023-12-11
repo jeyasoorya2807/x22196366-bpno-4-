@@ -24,7 +24,6 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'babyproducts/add_product.html', {'form': form})
 
-@login_required
 def add_to_cart(request, product_id):
     if not request.user.is_authenticated:
         messages.warning(request, 'Please log in to add items to your cart.')
@@ -39,7 +38,6 @@ def add_to_cart(request, product_id):
 
     return redirect('babyproducts:view_cart')
 
-@login_required
 def place_order(request):
     cart_items = CartItem.objects.filter(user=request.user)
     if cart_items:
@@ -53,13 +51,13 @@ def place_order(request):
 
     return redirect('babyproducts:product_list')
 
-@login_required
+
 def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
     print("cart items=",cart_items)
     return render(request, 'babyproducts/cart.html', {'cart_items': cart_items})
 
-@login_required
+
 def remove_from_cart(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id, user=request.user)
     cart_item.delete()
