@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Babyproduct(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    price = models.DecimaField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     image = models.ImageField(upload_to='products/')
 
