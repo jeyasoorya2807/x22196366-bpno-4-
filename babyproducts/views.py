@@ -3,9 +3,6 @@ from django.contrib import messages
 from .models import Babyproduct, CartItem, Order
 from .forms import ProductForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 def index(request):
     return render(request, 'babyproducts/index.html')
@@ -25,9 +22,9 @@ def add_product(request):
     return render(request, 'babyproducts/add_product.html', {'form': form})
 
 def add_to_cart(request, product_id):
-    # if not request.user.is_authenticated:
-    #     messages.warning(request, 'Please log in to add items to your cart.')
-    #     return redirect('users:sign_in')
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Please log in to add items to your cart.')
+        return redirect('sign_in')
 
     product = Babyproduct.objects.get(pk=product_id)
     cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
