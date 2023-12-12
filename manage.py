@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""Django's command-line utility for administrative tasks.
+
+This module is the entry point for many Django commands. Running
+`python manage.py [command]` executes the specified command.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/stable/ref/django-admin/
+"""
 import os
 import sys
 
