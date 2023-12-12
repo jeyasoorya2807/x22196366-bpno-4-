@@ -25,4 +25,4 @@ class CartItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(CartItem)
-    timestamp = models.DateTimeField(auto_now_add=false)
+    timestamp = models.DateTimeField(auto_now_add=True)
