@@ -11,22 +11,21 @@ phases:
       - pip install -r $CODEBUILD_SRC_DIR/requirements.txt pylint
       - yum update
       - yum install -y jq
-      #change
-      #- wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      #- unzip ./sonar-scanner-cli-4.7.0.2747-linux.zip
-      #- export PATH=$PATH:$PWD/sonar-scanner-4.7.0.2747-linux/bin/
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      - unzip ./sonar-scanner-cli-4.7.0.2747-linux.zip
+      - export PATH=$PATH:$PWD/sonar-scanner-4.7.0.2747-linux/bin/
       - python --version
   pre_build:
     commands: 
       #- pylint $CODEBUILD_SRC_DIR/*.py
       #- pylint $CODEBUILD_SRC_DIR/*/*.py
-      #- sonar-scanner -Dsonar.organization=jeyasoorya2807 -Dsonar.projectKey=jeyasoorya2807_x22196366-bpno-4- -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=f8897117b82d62e43c5c1bd2169beef662bebc85
-      #- sleep 5
-      #- curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=jeyasoorya2807_x22196366-bpno-4- > analysis.json
-      #- cat analysis.json
+      - sonar-scanner -Dsonar.organization=jeyasoorya2807 -Dsonar.projectKey=jeyasoorya2807_x22196366-bpno-4- -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=f8897117b82d62e43c5c1bd2169beef662bebc85
+      - sleep 5
+      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=jeyasoorya2807_x22196366-bpno-4- > analysis.json
+      - cat analysis.json
   build:
     commands:
-      #- if [[ $(jq -r '.projectStatus.status' analysis.json) = "ERROR" ]] ; then CODEBUILD_BUILD_SUCCEEDING=0; fi
+      - if [[ $(jq -r '.projectStatus.status' analysis.json) = "ERROR" ]] ; then CODEBUILD_BUILD_SUCCEEDING=0; fi
   
   
     serviceRole: arn:aws:iam::250738637992:role/service-role/codebuild-x22196366-babyproducts-service-role
