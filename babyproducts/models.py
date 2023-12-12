@@ -14,7 +14,7 @@ class Babyproduct(models.Model):
         return self.name
 
  
-class CartItem (models.Model):
+class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Babyproduct, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
@@ -25,4 +25,4 @@ class CartItem (models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(CartItem)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=false)
