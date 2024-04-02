@@ -77,10 +77,12 @@
         {% for product in products %}
             <li>
                 <h2>{{ product.name }}</h2>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <img src="{{babyproducts}}" alt="{{ product.name }}">
                 <p>Description: {{ product.description }}</p>
                 <p>Price: ${{ product.price }}</p>
                 <p>Quantity: {{ product.quantity }}</p>
+                <!-- Display the size information -->
+                <p>Size: {{ product.size }}</p>
                 <form method="post" action="{% url 'babyproducts:add_to_cart' product.id %}">
                     {% csrf_token %}
                     <input type="submit" value="Add to Cart">

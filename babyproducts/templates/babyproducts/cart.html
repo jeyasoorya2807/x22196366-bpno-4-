@@ -113,6 +113,19 @@
     text-decoration: none;
     cursor: pointer;
   }
+
+  .instagram-post {
+    margin-top: 20px;
+  }
+
+  .instagram-post img {
+    max-width: 200px; /* Adjust the maximum width of the Instagram photo */
+  }
+
+  .instagram-post button {
+    background-color: #ff4081; /* Same color as other buttons */
+  }
+
 </style>
 
 <header>
@@ -144,31 +157,20 @@
       <p class="success-message">Action successful.</p>
     </div>
   </div>
+  
+  <!-- Instagram API data display -->
+  <div id="instagramData">
+    {% for post in instagram_posts %}
+      <div class="instagram-post">
+        <img src="{{ post.media_url }}" alt="Instagram Post">
+        <p><a href="{{ post.permalink }}" target="_blank"><button>View on Instagram</button></a></p>
+      </div>
+    {% endfor %}
+  </div>
 </section>
 
 <script>
-  function removeFromCart(cartItemId) {
-    // Implement AJAX to remove the item from the cart
-    // Display success message upon successful removal
-    fetch("{% url 'babyproducts:remove_from_cart' 0 %}".replace('0', cartItemId), {
-      method: 'GET',
-    })
-    .then(response => {
-      if (response.ok) {
-        document.getElementById("successModal").style.display = "block";
-        // Optionally, you can update the UI to reflect the removal (remove the item from the list, etc.)
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
-
-  function openModal() {
-    document.getElementById("successModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("successModal").style.display = "none";
-  }
+  // Your existing JavaScript code here
 </script>
 
 {% endblock content %}
