@@ -77,7 +77,7 @@
         {% for product in products %}
             <li>
                 <h2>{{ product.name }}</h2>
-                <img src="{{product.newone_products.url}}" alt="{{ product.name }}">
+                <img src="/media/{{product.image}}" alt="{{product.name }} Image" width="90" height = "90">
                 <p>Description: {{ product.description }}</p>
                 <p>Price: ${{ product.price }}</p>
                 <p>Quantity: {{ product.quantity }}</p>
