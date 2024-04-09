@@ -1,0 +1,6 @@
+<h2>Add Review for {{ babyproduct.name }}</h2>
+<form method="post" action="{% url 'babyproducts:submit_review' product_id=babyproduct.id %}">
+    {% csrf_token %}
+    <!-- Your review form fields go here -->
+    <button type="submit">Submit Review</button>
+</form>

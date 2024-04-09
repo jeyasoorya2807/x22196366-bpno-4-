@@ -2,9 +2,11 @@ import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Babyproduct, CartItem, Order
-from .forms import ProductForm
+from .forms import ProductForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 import json 
+
+endpoint = "https://2arbn3zs3e.execute-api.eu-west-1.amazonaws.com/dev"
 
 # Function to fetch Instagram API data
 def fetch_instagram_data():
@@ -47,7 +49,10 @@ def index(request):
 @login_required
 def product_list(request):
     products = Babyproduct.objects.all()
-    
+    # Fetch reviews for each product and add them to the product objects
+    for product in products:
+        product.reviews = get_reviews_from_api(product.id)  # Assuming get_reviews_from_api retrieves reviews for a given product ID
+
     return render(request, 'babyproducts/products_list.html', {'products': products})
 
 @login_required
@@ -110,3 +115,43 @@ def remove_from_cart(request, cart_item_id):
     cart_item.delete()
     messages.success(request, f"{cart_item.product.name} has been removed from your cart.")
     return redirect('babyproducts:view_cart')
+
+@login_required
+def add_review(request, product_id):
+    babyproduct = get_object_or_404(Babyproduct, pk=product_id)
+   
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['content']
+           
+            user_id = request.user.username
+            submit_review_to_api(request, user_id, product_id, content)
+           
+            # Redirect the user back to the product detail page
+            return redirect('babyproducts:product_list')
+    else:
+        # If the request method is not POST, render the form
+        form = ReviewForm()
+   
+    # Render the add review form template
+    return render(request, 'babyproducts/index.html', {'form': form, 'babyproduct': babyproduct})
+
+def submit_review_to_api(request, user_id, product_id, content):
+    # Call the API endpoint to submit a new review
+    data = {'application': 'babyproducts', 'rid': product_id, 'user_id': user_id, 'content': content}
+    response = requests.post(endpoint, json=data)
+ 
+    if response.status_code == 200:
+        messages.success(request, "Review created successfully")
+    else:
+        # Handle error response if needed
+        messages.error(request, "Failed to create review")
+ 
+def get_reviews_from_api(product_id):
+    response = requests.get(endpoint, params={'application': 'babyproducts','rid': product_id})
+ 
+    if response.status_code == 200:
+        return json.loads(response.text)
+    else:
+        return []  # Return empty list if no reviews found or error occurred

@@ -87,6 +87,26 @@
                     {% csrf_token %}
                     <input type="submit" value="Add to Cart">
                 </form>
+                
+                <form method="post" action="{% url 'babyproducts:add_review' product_id=product.id %}">
+                    {% csrf_token %}
+                    <label for="review_content">Add a Review:</label><br>
+                    <textarea id="review_content" name="content" rows="4" cols="50"></textarea><br>
+                    <input type="submit" value="Submit Review">
+                </form>
+
+                <!-- Display reviews for this product -->
+                <div class="reviews">
+                    <h3>Reviews:</h3>
+                    {% for review in product.reviews %}
+                        <div class="review-item">
+                            <p><strong>User:</strong> {{ review.user_id }}</p>
+                            <p><strong>Content:</strong> {{ review.content }}</p>
+                        </div>
+                    {% empty %}
+                        <p>No reviews available.</p>
+                    {% endfor %}
+                </div>
             </li>
         {% endfor %}
     </ul>
