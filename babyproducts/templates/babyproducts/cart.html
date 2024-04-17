@@ -158,19 +158,45 @@
     </div>
   </div>
   
+  <script>
+    function removeFromCart(cartItemId) {
+      const removeUrl = "{% url 'babyproducts:remove_from_cart' 0 %}".replace('0', cartItemId);
+  
+      fetch(removeUrl, {
+        method: 'GET',
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("successModal").style.display = "block";
+          // Optionally, you can update the UI to reflect the removal (remove the item from the list, etc.)
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  
+    function openModal() {
+      document.getElementById("successModal").style.display = "block";
+    }
+  
+    function closeModal() {
+      document.getElementById("successModal").style.display = "none";
+    }
+  </script>
+  
+  
   <!-- Instagram API data display -->
   <div id="instagramData">
-    {% for post in instagram_posts %}
-      <div class="instagram-post">
-        <img src="{{ post.media_url }}" alt="Instagram Post">
-        <p><a href="{{ post.permalink }}" target="_blank"><button>View on Instagram</button></a></p>
-      </div>
-    {% endfor %}
+    {% if instagram_posts %}
+      {% for post in instagram_posts %}
+        <div class="instagram-post">
+          <img src="{{ post.media_url }}" alt="Instagram Post">
+          <p><a href="{{ post.permalink }}" target="_blank"><button>View on Instagram</button></a></p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No Instagram posts available.</p>
+    {% endif %}
   </div>
 </section>
-
-<script>
-  // Your existing JavaScript code here
-</script>
 
 {% endblock content %}

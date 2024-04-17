@@ -10,7 +10,7 @@ endpoint = "https://2arbn3zs3e.execute-api.eu-west-1.amazonaws.com/dev"
 
 # Function to fetch Instagram API data
 def fetch_instagram_data():
-    url = "https://v1.nocodeapi.com/jeyasooryamanoharan/instagram/NkgjDrwcmQMkdywm"
+    url = "https://v1.nocodeapi.com/jeyasooryamanoharan/instagram/GKvklxfApuGJuqdU"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -99,10 +99,10 @@ def place_order(request):
 def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
     # Sample Instagram data for testing
-    instagram_data = [
+    instagram_data =  [
         {
             "media_url": "https://scontent.cdninstagram.com/v/t51.29350-15/411503888_1018157315910340_5692675451745538138_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=HVj8a3SuNdUAX_SLuXA&_nc_ht=scontent.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfDbRHNXCLWTsdDSvpxGmXYWSbc4zT_sGRklfkidhWmP7g&oe=6611F8EA",
-            "permalink": "https://www.instagram.com/p/C09-Fi-q50r/",
+            "permalink": "https://www.instagram.com/x22196366_baby_products",
             "username": "x22196366_baby_products",
             "timestamp": "2023-12-17T20:54:10+0000"
         }
