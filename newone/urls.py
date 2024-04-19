@@ -20,12 +20,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('users.urls',namespace='users')),
+    path('signup/', include('users.urls')),
+    # path('', include('users.urls',namespace='users')),
     path('signin/', auth_views.LoginView.as_view(
         template_name='users/signin.html'), name='sign_in'),
     path('signout/', auth_views.LogoutView.as_view(
         template_name='users/signout.html'), name='sign_out'),
-    path('babyproducts/', include('babyproducts.urls', namespace='babyproducts')),
+    path('', include('babyproducts.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
