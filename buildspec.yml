@@ -17,8 +17,8 @@ phases:
       - python --version
   pre_build:
     commands: 
-      #- pylint $CODEBUILD_SRC_DIR/*.py
-      #- pylint $CODEBUILD_SRC_DIR/*/*.py
+      - pylint --disable=C0303,C0114,C0115,C0304,R0903,E0307,W0611,C0103,C0301,C0116,E1101,C0411,C0305,R0901,C0209 $CODEBUILD_SRC_DIR/*.py
+      - pylint --disable=C0303,C0114,C0115,C0304,R0903,E0307,W0611,C0103,C0301,C0116,E1101,C0411,C0305,R0901,C0209 $CODEBUILD_SRC_DIR/*/*.py
       - sonar-scanner -Dsonar.organization=jeyasoorya2807 -Dsonar.projectKey=jeyasoorya2807_x22196366-bpno-4- -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=f8897117b82d62e43c5c1bd2169beef662bebc85
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=jeyasoorya2807_x22196366-bpno-4- > analysis.json
