@@ -127,7 +127,6 @@
   }
 
 </style>
-
 <header>
   <h1>Your Shopping Cart</h1>
 </header>
@@ -144,7 +143,7 @@
       {% endfor %}
     </ul>
     <div>
-      <button onclick="openModal()">Place Order</button>
+      <button onclick="placeOrder()">Place Order</button>
       <a href="{% url 'babyproducts:product_list' %}"><button>Add More Products</button></a>
     </div>
   {% else %}
@@ -174,8 +173,19 @@
       .catch(error => console.error('Error:', error));
     }
   
-    function openModal() {
-      document.getElementById("successModal").style.display = "block";
+    function placeOrder() {
+      const orderUrl = "{% url 'babyproducts:place_order' %}";
+
+      fetch(orderUrl, {
+        method: 'GET',
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("successModal").style.display = "block";
+          // Optionally, you can update the UI to reflect the successful order placement
+        }
+      })
+      .catch(error => console.error('Error:', error));
     }
   
     function closeModal() {
@@ -198,5 +208,4 @@
     {% endif %}
   </div>
 </section>
-
 {% endblock content %}

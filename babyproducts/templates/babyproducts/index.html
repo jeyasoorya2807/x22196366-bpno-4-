@@ -71,6 +71,20 @@
             bottom: 0;
             width: 100%;
         }
+        
+        /* Animation for left to right motion */
+        @keyframes moveLeftToRight {
+            from { 
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .parenting-tip {
+            animation: moveLeftToRight 10s infinite linear; /* Adjust the duration and timing function as needed */
+        }
     </style>
 </head>
 <body>
@@ -80,9 +94,9 @@
 
     <section>
         {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}! Discover a world of joy with our amazing baby products! Thank you for visiting our Online Store.For the convenience of our customers, we are offering only a few of our everyday baby necessity products online.</p>
-        <p>"Are you excited to check the meaning for your little ones"</p>
-        {% else %}
+        <p>Hello, {{ user.username }}! Discover a world of joy with our amazing baby products! Thank you for visiting our Online Store.</p>
+        <p>For the convenience of our customers, we are offering only a few of our everyday baby necessity products online.</p>
+        <p>"Are you excited to check the meaning for your little ones?"</p>
         {% endif %}
 
         <form id="babyNameForm" method="GET">
@@ -91,7 +105,7 @@
             <button type="submit">Get Meaning</button>
         </form>
         {% if name_meaning %}
-        <p id="nameMeaning">The meaning of the name 'print value of name here' is 'print value of meaning here'.</p>
+        <p id="nameMeaning">The meaning of the name '{{ name_meaning.name }}' is '{{ name_meaning.meaning }}'.</p>
         <script>
             // JavaScript code to update the name and meaning values
             var nameMeaning = {{ name_meaning | safe }}; // Assuming this is your JavaScript object
@@ -101,10 +115,18 @@
      
             // Updating the content of the paragraph element with the values from the JavaScript object
             nameMeaningParagraph.textContent = "The meaning of the name '" + nameMeaning.name + "' is '" + nameMeaning.meaning + "'.";
-    </script>
-                {% endif %}
+        </script>
+        {% endif %}
         
         <a href="{% url 'babyproducts:product_list' %}">Explore Products</a>
+        
+    </section>
+
+    <section>
+        <!-- Existing content -->
+        {% if parenting_tip %}
+        <p class="parenting-tip">{{ parenting_tip }}</p>
+        {% endif %}
     </section>
 
     <footer>

@@ -17,6 +17,21 @@ def fetch_instagram_data():
     else:
         return None
 
+parenting_tips_api_url = "https://tggng1eo47.execute-api.eu-west-1.amazonaws.com/default/x22196366-parentingtips"
+name_meaning_api_url = "https://9gzuemu06f.execute-api.eu-west-1.amazonaws.com/development"
+
+def get_parenting_tip():
+    """
+    Get a parenting tip from the Lambda function.
+    """
+    try:
+        response = requests.get(parenting_tips_api_url)
+        response.raise_for_status()  # Raise an error for non-200 status codes
+        return response.json().get('parenting_tip', '')
+    except requests.RequestException as e:
+        # Handle API request errors
+        return ""
+
 @login_required
 def index(request):
     name = request.GET.get('name', '')  # Get the 'name' parameter from the query string
@@ -30,21 +45,21 @@ def index(request):
     if name:
         try:
             # Example API call to retrieve data from the Lambda function
-            api_url = "https://9gzuemu06f.execute-api.eu-west-1.amazonaws.com/development"
             payload = {'name': name}
             headers = {'Content-Type': 'application/json'}
  
-            response = requests.post(api_url, data=json.dumps(payload), headers=headers)
+            response = requests.post(name_meaning_api_url, data=json.dumps(payload), headers=headers)
             response.raise_for_status()  # Raise an error for non-200 status codes
  
-            name_meaning = response.json()
-            print('name_meaning:',name_meaning.get('body'))
-            name_meaning = name_meaning.get('body')
+            name_meaning = response.json().get('body', {})
+            print('name_meaning:', name_meaning)
         except requests.RequestException as e:
             # Handle API request errors
             name_meaning = {'error': 'Failed to fetch name meaning'}
+
+    parenting_tip = get_parenting_tip()
  
-    return render(request, 'babyproducts/index.html', {'name_meaning': name_meaning})
+    return render(request, 'babyproducts/index.html', {'name_meaning': name_meaning, 'parenting_tip': parenting_tip})
 
 @login_required
 def product_list(request):
@@ -99,9 +114,9 @@ def place_order(request):
 def view_cart(request):
     cart_items = CartItem.objects.filter(user=request.user)
     # Sample Instagram data for testing
-    instagram_data =  [
+    instagram_data =[
         {
-            "media_url": "https://scontent.cdninstagram.com/v/t51.29350-15/411503888_1018157315910340_5692675451745538138_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=18de74&_nc_ohc=HVj8a3SuNdUAX_SLuXA&_nc_ht=scontent.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfDbRHNXCLWTsdDSvpxGmXYWSbc4zT_sGRklfkidhWmP7g&oe=6611F8EA",
+            "media_url": "https://scontent.cdninstagram.com/v/t51.29350-15/439022523_1106114107311452_6796697862091274425_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=18de74&_nc_ohc=9IJxU9lDRx0Ab43pj7b&_nc_ht=scontent.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfAussIqOoG1IBAtD9otDwVnlrf4xeAtYI7Mpk9b3ftDEg&oe=6625F867",
             "permalink": "https://www.instagram.com/x22196366_baby_products",
             "username": "x22196366_baby_products",
             "timestamp": "2023-12-17T20:54:10+0000"
@@ -155,3 +170,6 @@ def get_reviews_from_api(product_id):
         return json.loads(response.text)
     else:
         return []  # Return empty list if no reviews found or error occurred
+        
+
+
